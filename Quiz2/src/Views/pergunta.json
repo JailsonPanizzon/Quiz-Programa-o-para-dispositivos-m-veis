@@ -1,0 +1,17 @@
+{
+    "pergunta":{
+
+    
+    "enunciado":"O que é engenharia de Software?",
+    "listaAlternativas":[
+        {"0":"Uma materia"},
+        {"1":"Uma profissão"},
+        {"2":"Uma tortura"},
+        {"3":"Uma musica"},
+        {"4":"Uma serie"},
+        {"5":"Uma maquina"},
+        {"6":"Uma carro"},
+        {"7":"Uma atriz"}
+        
+    ]
+}}
