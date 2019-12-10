@@ -1,26 +1,37 @@
 import React, { useState, useEffect } from 'react'
+import { StyleSheet } from 'react-native'
 import { RadioButton, Text } from "react-native-paper";
 import styled from 'styled-components/native'
 import { Container } from '../../components/Container'
 
 const QuestionContainer = styled.View`
-  width: 50%;
-  background-color: red;
-  flex-direction: column;
-  align-items: stretch;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15px;
+`;
+const QuestionText = styled.Text`
+  font-size: 18px;
 `;
 const AlternativeContainer = styled.View`
   width: 100%;
-  background-color: blue;
-  flex-direction: column;
   align-Items: stretch;
 `;
 const Alternative = styled.View`
-  width: 70%;
-  background-color: blue;
-  flex-direction: column;
-  align-items: stretch;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
 `;
+
+const styles = StyleSheet.create({
+  radioGroup: {
+    flexDirection: "column",
+    alignItems: "stretch",
+    backgroundColor: 'blue'
+  },
+});
 
 const db = require("../pergunta.json");
 
@@ -29,14 +40,14 @@ const Question = ({ navigation }) => {
   const [value, setValue] = useState('first');
 
   useEffect(() => {
-    setAlternativas(sortearAlterantivas())
+    setAlternativas(sortearAlternativas())
   }, [])
 
   const handleBack = () => {
     navigation.goBack()
   }
 
-  const sortearAlterantivas = () => {
+  const sortearAlternativas = () => {
     let listaAlterantivas = db.alternativas;
     let sorteadas = [];
     while (sorteadas.length < 4) {
@@ -58,28 +69,34 @@ const Question = ({ navigation }) => {
   return (
     <Container>
       <QuestionContainer>
-        <Text>{db.pergunta}</Text>
+        <QuestionText>{db.pergunta}</QuestionText>
       </QuestionContainer>
+      {console.log('alt', alternativas)}
       <AlternativeContainer>
         <RadioButton.Group
           onValueChange={value => setValue(value)}
           value={value}
+          style={styles.radioGroup}
         >
           <Alternative>
-            <Text>{alternativas[0]}</Text>
-            <RadioButton value="first" />
+            <RadioButton value={alternativas[0]} />
+            <Text
+              onPress={() => setValue(alternativas[0])}>{alternativas[0]}</Text>
           </Alternative>
           <Alternative>
-            <Text>{alternativas[1]}</Text>
-            <RadioButton value="second" />
+            <RadioButton value={alternativas[1]} />
+            <Text
+              onPress={() => setValue(alternativas[1])}>{alternativas[1]}</Text>
           </Alternative>
           <Alternative>
-            <Text>{alternativas[2]}</Text>
-            <RadioButton value="third" />
+            <RadioButton value={alternativas[2]} />
+            <Text
+              onPress={() => setValue(alternativas[2])}>{alternativas[2]}</Text>
           </Alternative>
           <Alternative>
-            <Text>{alternativas[3]}</Text>
-            <RadioButton value="fourty" />
+            <RadioButton value={alternativas[3]} />
+            <Text
+              onPress={() => setValue(alternativas[3])}>{alternativas[3]}</Text>
           </Alternative>
         </RadioButton.Group>
       </AlternativeContainer>
