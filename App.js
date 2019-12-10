@@ -1,22 +1,29 @@
+import React from 'react';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer} from 'react-navigation';
+import {Icon} from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import Question from './src/screens/Question';
+import Home from './src/screens/Home';
 import Category from './src/screens/Category';
 
 const Routes = createAppContainer(
   createStackNavigator(
     {
-      Question,
+      Home,
       Category,
     },
     {
-      initialRouteName: 'Category',
+      initialRouteName: 'Home',
       defaultNavigationOptions: {
+        title: 'Quiz',
+        headerBackTitle: <Icon name={'chevron-left'} />,
         headerStyle: {
-          backgroundColor: '#0011ff',
+          backgroundColor: '#1f1fff',
         },
         headerTintColor: '#ffffff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
       },
       mode: 'modal',
     },
