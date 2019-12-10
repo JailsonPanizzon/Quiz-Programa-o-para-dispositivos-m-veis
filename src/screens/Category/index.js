@@ -90,8 +90,8 @@ const Category = ({navigation}) => {
       var aleatorio = Math.floor(Math.random() * 15);
 
       if (sorteadas.indexOf(aleatorio + 1) === -1) {
-        console.log('aleattório', aleatorio + 1);
-        sorteadas.push(aleatorio + 1);
+        // console.log('aleattório', aleatorio);
+        sorteadas.push(aleatorio);
       }
     }
     // console.log('sorteadas', sorteadas);
@@ -105,7 +105,11 @@ const Category = ({navigation}) => {
   };
 
   const handleNext = () => {
-    setAtualQuestion(old => old + 1);
+    if (atualQuestion === 4) {
+      navigation.navigate('Home');
+    } else {
+      setAtualQuestion(old => old + 1);
+    }
   };
 
   // const handleBack = () => {
@@ -117,6 +121,7 @@ const Category = ({navigation}) => {
       <QuestionContainer>
         {questions[atualQuestion] ? (
           <Question
+            category={category}
             question={questions[atualQuestion]}
             index={atualQuestion}
             onNext={handleNext}
