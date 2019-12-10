@@ -90,23 +90,26 @@ const Category = ({navigation}) => {
       var aleatorio = Math.floor(Math.random() * 15);
 
       if (sorteadas.indexOf(aleatorio + 1) === -1) {
-        console.log('aleattório', aleatorio + 1);
-        sorteadas.push(aleatorio + 1);
+        // console.log('aleattório', aleatorio);
+        sorteadas.push(aleatorio);
       }
     }
     // console.log('sorteadas', sorteadas);
     let questionsSorteadas = [];
     aleatorio = Math.floor(Math.random() * 5);
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 5; i++) {
       questionsSorteadas.push(listaQuestions[sorteadas[i]]);
     }
-    questionsSorteadas[aleatorio] = listaQuestions[0];
     // console.log('questionsSorteadas', questionsSorteadas);
     return questionsSorteadas;
   };
 
   const handleNext = () => {
-    setAtualQuestion(old => old + 1);
+    if (atualQuestion === 4) {
+      navigation.navigate('Home');
+    } else {
+      setAtualQuestion(old => old + 1);
+    }
   };
 
   // const handleBack = () => {
@@ -118,6 +121,7 @@ const Category = ({navigation}) => {
       <QuestionContainer>
         {questions[atualQuestion] ? (
           <Question
+            category={category}
             question={questions[atualQuestion]}
             index={atualQuestion}
             onNext={handleNext}

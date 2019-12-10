@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import {ScrollView} from 'react-native';
 import {lockOrientation} from '../../services/lockOrientation';
 
 import styled from 'styled-components/native';
@@ -40,6 +39,29 @@ const Title = styled.Text`
   font-size: 40px;
   text-align: center;
 `;
+const ScoreButtonContainer = styled.View`
+  width: 100%;
+  align-items: center;
+  height: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  bottom: 0;
+`;
+const ScoreButton = styled.TouchableOpacity`
+  width: 30%;
+  height: 40px;
+  border-radius: 5;
+  border-color: #00000066;
+  align-items: center;
+  justify-content: center;
+  border-width: 1;
+  background-color: ${props => (props.disabled ? '#1f1fff99' : '#1f1fff')};
+`;
+const ScoreButtonText = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+`;
 
 const Home = ({navigation}) => {
   useEffect(() => {
@@ -51,29 +73,32 @@ const Home = ({navigation}) => {
   };
 
   return (
-    <ScrollView>
-      <Container>
-        <Title>Temas</Title>
-        <CategoryRow>
-          <Category onPress={() => handleQuiz('Geografia')}>
-            <CategoryTitle>Geografia</CategoryTitle>
-            <CategoryImage source={GeografiaImage} />
-          </Category>
-          <Category onPress={() => handleQuiz('Historia')}>
-            <CategoryTitle>História</CategoryTitle>
-            <CategoryImage source={HistoriaImage} />
-          </Category>
-          <Category onPress={() => handleQuiz('Informatica')}>
-            <CategoryTitle>Informática</CategoryTitle>
-            <CategoryImage source={InformaticaImage} />
-          </Category>
-          <Category onPress={() => handleQuiz('Matematica')}>
-            <CategoryTitle>Matemática</CategoryTitle>
-            <CategoryImage source={MatematicaImage} />
-          </Category>
-        </CategoryRow>
-      </Container>
-    </ScrollView>
+    <Container>
+      <Title>Temas</Title>
+      <CategoryRow>
+        <Category onPress={() => handleQuiz('Geografia')}>
+          <CategoryTitle>Geografia</CategoryTitle>
+          <CategoryImage source={GeografiaImage} />
+        </Category>
+        <Category onPress={() => handleQuiz('Historia')}>
+          <CategoryTitle>História</CategoryTitle>
+          <CategoryImage source={HistoriaImage} />
+        </Category>
+        <Category onPress={() => handleQuiz('Informatica')}>
+          <CategoryTitle>Informática</CategoryTitle>
+          <CategoryImage source={InformaticaImage} />
+        </Category>
+        <Category onPress={() => handleQuiz('Matematica')}>
+          <CategoryTitle>Matemática</CategoryTitle>
+          <CategoryImage source={MatematicaImage} />
+        </Category>
+      </CategoryRow>
+      <ScoreButtonContainer>
+        <ScoreButton onPress={() => navigation.navigate('Score')}>
+          <ScoreButtonText>Minhas Pontuações</ScoreButtonText>
+        </ScoreButton>
+      </ScoreButtonContainer>
+    </Container>
   );
 };
 

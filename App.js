@@ -4,12 +4,14 @@ import {createAppContainer} from 'react-navigation';
 import {Icon} from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Home from './src/screens/Home';
+import Score from './src/screens/Score';
 import Category from './src/screens/Category';
 
 const Routes = createAppContainer(
   createStackNavigator(
     {
       Home,
+      Score,
       Category,
     },
     {

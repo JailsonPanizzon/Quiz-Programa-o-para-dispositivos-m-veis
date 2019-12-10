@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import {RadioButton} from 'react-native-paper';
+
+import AsyncStorage from '@react-native-community/async-storage';
+
 import styled from 'styled-components/native';
 
 import {lockOrientation} from '../../services/lockOrientation';
@@ -32,7 +35,7 @@ const QuestionText = styled.Text`
   font-size: 18px;
 `;
 const QuestionImage = styled.Image`
-  width: 150px;
+  width: 100%;
   height: 150px;
 `;
 const AlternativeContainer = styled.View`
@@ -87,12 +90,24 @@ const styles = StyleSheet.create({
   },
 });
 
-const Question = ({question, index, onNext}) => {
+const Question = ({category, question, index, onNext}) => {
   const [alternativas, setAlternativas] = useState([]);
   const [value, setValue] = useState();
 
   useEffect(() => {
-    console.log('question', question);
+    value && setScore();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
+  const setScore = async () => {
+    const points = Number(await AsyncStorage.getItem(`score-${category}`));
+    console.log('setScore', points);
+    if (value === question.alternativas[0]) {
+      AsyncStorage.setItem(`score-${category}`, `${Number(points + 20)}`);
+    }
+  };
+
+  useEffect(() => {
     lockOrientation();
     setAlternativas(sortearAlternativas());
     // eslint-disable-next-line react-hooks/exhaustive-deps
