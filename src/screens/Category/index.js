@@ -98,7 +98,12 @@ const Category = ({navigation}) => {
     let questionsSorteadas = [];
     aleatorio = Math.floor(Math.random() * 5);
     for (let i = 0; i < 5; i++) {
+      
+      if (sorteadas.indexOf(aleatorio + 1) === -1) {
       questionsSorteadas.push(listaQuestions[sorteadas[i]]);
+      }else{
+        i--;
+      }
     }
     // console.log('questionsSorteadas', questionsSorteadas);
     return questionsSorteadas;
