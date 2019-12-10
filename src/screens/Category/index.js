@@ -1,82 +1,134 @@
-import React from 'react';
-import {Text} from 'react-native-paper';
-import {ScrollView} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ActivityIndicator} from 'react-native';
 
+import Question from '../Question';
 import styled from 'styled-components/native';
 
-import {Container} from '../../components/Container';
+import {lockOrientation} from '../../services/lockOrientation';
 
-const QuestionContainer = styled.View`
+import {
+  Geografia,
+  Historia,
+  Informatica,
+  Matematica,
+} from '../../assets/questions';
+
+import {
+  GeografiaImage,
+  HistoriaImage,
+  InformaticaImage,
+  MatematicaImage,
+} from '../../assets/images';
+
+const Background = styled.ImageBackground`
   width: 100%;
-  flex-direction: row;
-  align-items: stretch;
+  height: 100%;
+`;
+const Loading = styled.View`
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+const QuestionContainer = styled.View`
+  padding: 10px 15px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-color: #ffffff99;
 `;
 
-const db = require('../pergunta.json');
-
 const Category = ({navigation}) => {
-  const sortearPerguntas = () => {
-    let listaAlterantivas = db.alternativas;
-    let sorteadas = [];
-    while (sorteadas.length < 4) {
-      var aleatorio = Math.floor(Math.random() * 7);
-      if (sorteadas.indexOf(aleatorio + 1) == -1) sorteadas.push(aleatorio + 1);
+  const category = navigation.getParam('category');
+  const [questions, setQuestions] = useState([]);
+  const [atualQuestion, setAtualQuestion] = useState(0);
+
+  useEffect(() => {
+    console.log('log');
+    lockOrientation();
+    setQuestions(sortearPerguntas());
+  }, [sortearPerguntas]);
+
+  const getCategoryQuestions = () => {
+    switch (category) {
+      case 'Geografia':
+        return Geografia.questoes;
+      case 'Historia':
+        return Historia.questoes;
+      case 'Informatica':
+        return Informatica.questoes;
+      case 'Matematica':
+        return Matematica.questoes;
+
+      default:
+        break;
     }
-    let alternativasSorteadas = [];
-    aleatorio = Math.floor(Math.random() * 4);
-    for (i = 0; i < 4; i++) {
-      alternativasSorteadas.push(listaAlterantivas[sorteadas[i]]);
-    }
-    alternativasSorteadas[aleatorio] = listaAlterantivas[0];
-    return alternativasSorteadas;
   };
 
-  const handleBack = () => {
-    navigation.goBack();
+  const getCategoryImages = cat => {
+    switch (cat) {
+      case 'Geografia':
+        return GeografiaImage;
+      case 'Historia':
+        return HistoriaImage;
+      case 'Informatica':
+        return InformaticaImage;
+      case 'Matematica':
+        return MatematicaImage;
+
+      default:
+        break;
+    }
   };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const sortearPerguntas = () => {
+    let listaQuestions = getCategoryQuestions();
+    // console.log('listaQuestions', listaQuestions);
+    let sorteadas = [];
+    while (sorteadas.length < 5) {
+      var aleatorio = Math.floor(Math.random() * 15);
+
+      if (sorteadas.indexOf(aleatorio + 1) === -1) {
+        console.log('aleattório', aleatorio + 1);
+        sorteadas.push(aleatorio + 1);
+      }
+    }
+    // console.log('sorteadas', sorteadas);
+    let questionsSorteadas = [];
+    aleatorio = Math.floor(Math.random() * 5);
+    for (let i = 0; i < 4; i++) {
+      questionsSorteadas.push(listaQuestions[sorteadas[i]]);
+    }
+    questionsSorteadas[aleatorio] = listaQuestions[0];
+    // console.log('questionsSorteadas', questionsSorteadas);
+    return questionsSorteadas;
+  };
+
+  const handleNext = () => {
+    setAtualQuestion(old => old + 1);
+  };
+
+  // const handleBack = () => {
+  //   navigation.goBack();
+  // };
 
   return (
-    <ScrollView>
-      <ScrollView>
-        <View style={styles.container}>
-          <TouchableOpacity style={styles.containerCategoria}>
-            <View style={styles.constainerButton}>
-              <Text>História</Text>
-            </View>
-            <Image
-              source={require("../img/historia.jpeg")}
-              style={styles.bg}
-            ></Image>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.containerCategoria}>
-            <View style={styles.constainerButton}>
-              <Text>Matemática</Text> 
-            </View>
-            <Image
-              source={require("../img/historia.jpeg")}
-              style={styles.bg}
-            ></Image>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.containerCategoria}>
-            <View style={styles.constainerButton}>
-              <Text>Informática</Text>
-            </View>
-            <Image
-              source={require("../img/historia.jpeg")}
-              style={styles.bg}
-            ></Image>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.containerCategoria}>
-            <View style={styles.constainerButton}>
-              <Text>Geografia</Text>
-            </View>
-            <Image
-              source={require("../img/historia.jpeg")}
-              style={styles.bg}
-            ></Image>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+    <Background source={getCategoryImages(category)}>
+      <QuestionContainer>
+        {questions[atualQuestion] ? (
+          <Question
+            question={questions[atualQuestion]}
+            index={atualQuestion}
+            onNext={handleNext}
+          />
+        ) : (
+          <Loading>
+            <ActivityIndicator size={30} />
+          </Loading>
+        )}
+      </QuestionContainer>
+    </Background>
   );
 };
 
