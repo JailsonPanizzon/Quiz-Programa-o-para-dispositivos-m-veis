@@ -1,10 +1,11 @@
-  
 import { createStackNavigator } from "react-navigation";
 import Pergunta from "./Views/Pergunta";
+import Categorias from "./Views/Categorias";
 
 export default createStackNavigator(
   {
-    Pergunta
+    Pergunta,
+    Categorias
   },
   {
     navigationOptions: {

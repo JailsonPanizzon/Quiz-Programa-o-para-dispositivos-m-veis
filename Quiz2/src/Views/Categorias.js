@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { ScreenOrientation } from "expo";
-import { RadioButton, Text } from "react-native-paper";
+import { Text } from "react-native-paper";
 
 const db = require("./pergunta.json");
 export default class Main extends Component {
@@ -16,19 +16,12 @@ export default class Main extends Component {
   }
 
   sortearPerguntas() {
-    let listaAlterantivas = db.alternativas;
     let sorteadas = [];
-    while (sorteadas.length < 4) {
-      var aleatorio = Math.floor(Math.random() * 7);
+    while (sorteadas.length < 5) {
+      var aleatorio = Math.floor(Math.random() * 15);
       if (sorteadas.indexOf(aleatorio + 1) == -1) sorteadas.push(aleatorio + 1);
     }
-    let alternativasSorteadas = [];
-    aleatorio = Math.floor(Math.random() * 4);
-    for (i = 0; i < 4; i++) {
-      alternativasSorteadas.push(listaAlterantivas[sorteadas[i]]);
-    }
-    alternativasSorteadas[aleatorio] = listaAlterantivas[0];
-    return alternativasSorteadas;
+    return sorteadas;
   }
 
   async changeScreenOrientation() {
@@ -42,51 +35,65 @@ export default class Main extends Component {
     return (
       <ScrollView>
         <View style={styles.container}>
-          <View style={styles.containerPergunta}>
-            <Text>{db.pergunta}</Text>
-          </View>
-          <View style={styles.containerPergunta}>
-            <Text>{db.pergunta}</Text>
-          </View>
-          <View style={styles.containerPergunta}>
-            <Text>{db.pergunta}</Text>
-          </View>
-          <View style={styles.containerPergunta}>
-            <Text>{db.pergunta}</Text>
-          </View>
+          <TouchableOpacity style={styles.containerCategoria}>
+            <View style={styles.constainerButton}>
+              <Text>História</Text>
+            </View>
+            <Image
+              source={require("../../img/historia.jpeg")}
+              style={styles.bg}
+            ></Image>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.containerCategoria}>
+            <View style={styles.constainerButton}>
+              <Text>Matemática</Text>
+            </View>
+            <Image
+              source={require("../../img/historia.jpeg")}
+              style={styles.bg}
+            ></Image>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.containerCategoria}>
+            <View style={styles.constainerButton}>
+              <Text>Informática</Text>
+            </View>
+            <Image
+              source={require("../../img/historia.jpeg")}
+              style={styles.bg}
+            ></Image>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.containerCategoria}>
+            <View style={styles.constainerButton}>
+              <Text>Geografia</Text>
+            </View>
+            <Image
+              source={require("../../img/historia.jpeg")}
+              style={styles.bg}
+            ></Image>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     );
   }
 }
 const styles = StyleSheet.create({
-  containerPergunta: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "stretch"
-  },
-  radioButton: {
-    width: "10%",
-    alignItems: "flex-start",
-    flexDirection: "column"
-  },
-  label: {
-    width: "90%",
-    alignItems: "flex-start",
-    flexDirection: "column"
-  },
-  containeralternativas: {
+  containerCategoria: {
     flexDirection: "column",
-    alignItems: "stretch"
-  },
-  alternativa: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "stretch"
+    alignItems: "stretch",
+    height: "50%",
+    width: "50%",
+    borderRadius: 10
   },
   container: {
+    position: "absolute",
+    backgroundColor: "transparent"
+  },
+  containerButton: {
     width: "100%",
     flexDirection: "column",
     alignItems: "stretch"
+  },
+  bg: {
+    width: "100%"
   }
 });
